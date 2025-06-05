@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEAM教育 - 社区</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- iOS状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">9:41</div>
+        <div class="flex items-center space-x-2">
+            <div class="status-bar-signal"></div>
+            <div class="status-bar-battery"></div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <div class="app-container">
+        <!-- 顶部标题栏 -->
+        <div class="flex justify-between items-center px-4 py-3 bg-white">
+            <h1 class="text-2xl font-bold">社区</h1>
+            <div class="flex space-x-4">
+                <i class="fas fa-search text-lg"></i>
+                <i class="fas fa-bell text-lg"></i>
+            </div>
+        </div>
+        
+        <!-- 内容分类 -->
+        <div class="px-4 py-3 bg-white border-b">
+            <div class="flex overflow-x-auto space-x-3 pb-2 no-scrollbar">
+                <button class="whitespace-nowrap px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-medium shadow-sm">推荐</button>
+                <button class="whitespace-nowrap px-4 py-2 bg-white text-gray-700 rounded-full text-sm font-medium border border-gray-200 shadow-sm">最新</button>
+                <button class="whitespace-nowrap px-4 py-2 bg-white text-gray-700 rounded-full text-sm font-medium border border-gray-200 shadow-sm">热门</button>
+                <button class="whitespace-nowrap px-4 py-2 bg-white text-gray-700 rounded-full text-sm font-medium border border-gray-200 shadow-sm">科学作品</button>
+                <button class="whitespace-nowrap px-4 py-2 bg-white text-gray-700 rounded-full text-sm font-medium border border-gray-200 shadow-sm">创意项目</button>
+            </div>
+        </div>
+        
+        <!-- 发布内容按钮 -->
+        <div class="p-4 bg-white mb-4 flex justify-between items-center">
+            <div class="flex items-center">
+                <img src="https://i.pravatar.cc/40?img=3" class="w-10 h-10 rounded-full" alt="用户头像">
+                <span class="text-gray-400 ml-3">分享你的STEAM创作...</span>
+            </div>
+            <button class="bg-blue-500 text-white px-3 py-1 rounded-full text-sm">发布</button>
+        </div>
+        
+        <!-- 社区内容流 -->
+        <div class="space-y-4 px-4">
+            <!-- 内容卡片1 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+                <!-- 用户信息 -->
+                <div class="p-3 flex items-center">
+                    <img src="https://i.pravatar.cc/40?img=4" class="w-10 h-10 rounded-full" alt="用户头像">
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium">李小华</h3>
+                        <p class="text-xs text-gray-500">2小时前</p>
+                    </div>
+                </div>
+                
+                <!-- 内容 -->
+                <div class="px-3 pb-2">
+                    <p class="text-sm mb-3">我的第一个机器人项目完成啦！这是我在"机器人编程基础"课程中制作的自动避障小车，大家觉得怎么样？</p>
+                </div>
+                
+                <!-- 图片 -->
+                <div class="mb-3">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="w-full" alt="机器人项目">
+                </div>
+                
+                <!-- 互动区 -->
+                <div class="px-3 py-2 border-t flex justify-between">
+                    <div class="flex space-x-4">
+                        <button class="flex items-center text-gray-500 text-sm">
+                            <i class="far fa-heart mr-1"></i>
+                            <span>32</span>
+                        </button>
+                        <button class="flex items-center text-gray-500 text-sm">
+                            <i class="far fa-comment mr-1"></i>
+                            <span>8</span>
+                        </button>
+                    </div>
+                    <button class="flex items-center text-gray-500 text-sm">
+                        <i class="far fa-share-square"></i>
+                    </button>
+                </div>
+                
+                <!-- 评论区 -->
+                <div class="px-3 py-2 bg-gray-50">
+                    <div class="mb-2">
+                        <div class="flex">
+                            <img src="https://i.pravatar.cc/24?img=7" class="w-6 h-6 rounded-full mr-2" alt="评论用户头像">
+                            <div class="bg-gray-100 rounded-lg px-3 py-2 flex-1">
+                                <h4 class="text-xs font-medium">王老师</h4>
+                                <p class="text-xs">很棒的作品！避障功能实现得非常好，可以考虑加入一些声音反馈。</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <img src="https://i.pravatar.cc/24?img=3" class="w-6 h-6 rounded-full mr-2" alt="用户头像">
+                        <input type="text" placeholder="添加评论..." class="bg-gray-100 rounded-full text-xs px-3 py-1 flex-1">
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 内容卡片2 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-sm">
+                <!-- 用户信息 -->
+                <div class="p-3 flex items-center">
+                    <img src="https://i.pravatar.cc/40?img=8" class="w-10 h-10 rounded-full" alt="用户头像">
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium">张小明</h3>
+                        <p class="text-xs text-gray-500">昨天</p>
+                    </div>
+                </div>
+                
+                <!-- 内容 -->
+                <div class="px-3 pb-2">
+                    <p class="text-sm mb-3">分享我在"家庭科学实验：探索化学反应"课程中做的实验成果，这是一个简单的火山模型，大家一起来学习吧！</p>
+                </div>
+                
+                <!-- 图片网格 -->
+                <div class="grid grid-cols-2 gap-1 mb-3">
+                    <img src="https://images.unsplash.com/photo-1607977027972-e5d5bc62f224?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="w-full h-40 object-cover" alt="科学实验1">
+                    <img src="https://images.unsplash.com/photo-1628863353691-0071c8c1874c?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="w-full h-40 object-cover" alt="科学实验2">
+                </div>
+                
+                <!-- 互动区 -->
+                <div class="px-3 py-2 border-t flex justify-between">
+                    <div class="flex space-x-4">
+                        <button class="flex items-center text-gray-500 text-sm">
+                            <i class="far fa-heart mr-1"></i>
+                            <span>64</span>
+                        </button>
+                        <button class="flex items-center text-gray-500 text-sm">
+                            <i class="far fa-comment mr-1"></i>
+                            <span>12</span>
+                        </button>
+                    </div>
+                    <button class="flex items-center text-gray-500 text-sm">
+                        <i class="far fa-share-square"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 内容卡片3 -->
+            <div class="bg-white rounded-lg overflow-hidden shadow-sm mb-24">
+                <!-- 用户信息 -->
+                <div class="p-3 flex items-center">
+                    <img src="https://i.pravatar.cc/40?img=10" class="w-10 h-10 rounded-full" alt="用户头像">
+                    <div class="ml-3">
+                        <h3 class="text-sm font-medium">陈小红</h3>
+                        <p class="text-xs text-gray-500">3天前</p>
+                    </div>
+                </div>
+                
+                <!-- 内容 -->
+                <div class="px-3 pb-2">
+                    <p class="text-sm mb-3">我的数学建模作品获得了校级比赛一等奖！感谢STEAM教育平台提供的数学建模课程，让我学会了如何用数学解决实际问题。</p>
+                </div>
+                
+                <!-- 图片 -->
+                <div class="mb-3">
+                    <img src="https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="w-full" alt="数学建模">
+                </div>
+                
+                <!-- 互动区 -->
+                <div class="px-3 py-2 border-t flex justify-between">
+                    <div class="flex space-x-4">
+                        <button class="flex items-center text-gray-500 text-sm">
+                            <i class="fas fa-heart mr-1 text-red-500"></i>
+                            <span>128</span>
+                        </button>
+                        <button class="flex items-center text-gray-500 text-sm">
+                            <i class="far fa-comment mr-1"></i>
+                            <span>24</span>
+                        </button>
+                    </div>
+                    <button class="flex items-center text-gray-500 text-sm">
+                        <i class="far fa-share-square"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item" data-tab="home">
+            <i class="tab-icon fas fa-compass"></i>
+            <span>探索</span>
+        </div>
+        <div class="tab-item" data-tab="course">
+            <i class="tab-icon fas fa-book"></i>
+            <span>课程</span>
+        </div>
+        <div class="tab-item" data-tab="activity">
+            <i class="tab-icon fas fa-flask"></i>
+            <span>活动</span>
+        </div>
+        <div class="tab-item active" data-tab="community">
+            <i class="tab-icon fas fa-users"></i>
+            <span>社区</span>
+        </div>
+        <div class="tab-item" data-tab="profile">
+            <i class="tab-icon fas fa-user"></i>
+            <span>我的</span>
+        </div>
+    </div>
+    
+    <script src="components.js"></script>
+    
+    <style>
+    /* 隐藏滚动条但保留滚动功能 */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;  /* Chrome, Safari and Opera */
+    }
+    </style>
+</body>
+</html> 

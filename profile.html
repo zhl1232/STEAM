@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEAM教育 - 个人中心</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- iOS状态栏 -->
+    <div class="status-bar">
+        <div class="status-bar-time">9:41</div>
+        <div class="flex items-center space-x-2">
+            <div class="status-bar-signal"></div>
+            <div class="status-bar-battery"></div>
+        </div>
+    </div>
+    
+    <!-- 主内容区 -->
+    <div class="app-container">
+        <!-- 顶部用户信息 -->
+        <div class="bg-white p-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center">
+                    <img src="https://i.pravatar.cc/80?img=3" class="w-20 h-20 rounded-full border-4 border-blue-500" alt="用户头像">
+                    <div class="ml-4">
+                        <h1 class="text-xl font-bold">小明同学</h1>
+                        <p class="text-gray-500 text-sm">ID: 12345678</p>
+                    </div>
+                </div>
+                <button class="text-sm font-medium text-blue-500 flex items-center">
+                    <i class="fas fa-cog mr-1"></i>
+                    设置
+                </button>
+            </div>
+            
+            <!-- 用户简介 -->
+            <p class="text-sm text-gray-600 mt-3">
+                热爱科学和编程，目标是成为一名机器人工程师！
+            </p>
+            
+            <!-- 学习数据 -->
+            <div class="flex justify-between mt-4 text-center">
+                <div>
+                    <p class="text-lg font-bold">12</p>
+                    <p class="text-xs text-gray-500">已学课程</p>
+                </div>
+                <div>
+                    <p class="text-lg font-bold">45</p>
+                    <p class="text-xs text-gray-500">总学时</p>
+                </div>
+                <div>
+                    <p class="text-lg font-bold">8</p>
+                    <p class="text-xs text-gray-500">获得徽章</p>
+                </div>
+                <div>
+                    <p class="text-lg font-bold">5</p>
+                    <p class="text-xs text-gray-500">参与活动</p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 学习进度 -->
+        <div class="bg-white mt-4 p-4">
+            <h2 class="text-lg font-bold mb-3">我的学习</h2>
+            <div class="space-y-4">
+                <!-- 最近课程 -->
+                <div class="border rounded-lg overflow-hidden">
+                    <div class="flex p-3">
+                        <img src="https://images.unsplash.com/photo-1544819667-9bfc1de23d4e?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" class="w-16 h-16 rounded-lg object-cover" alt="编程启蒙">
+                        <div class="ml-3 flex-1">
+                            <h3 class="text-sm font-medium mb-1">编程启蒙：创造你的第一个游戏</h3>
+                            <div class="flex items-center mb-2">
+                                <span class="text-xs bg-blue-100 text-blue-800 px-1.5 py-0.5 rounded-full">技术</span>
+                                <span class="text-xs text-gray-500 ml-2">3/8 课时</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 35%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="border rounded-lg overflow-hidden">
+                    <div class="flex p-3">
+                        <img src="https://images.unsplash.com/photo-1580894908361-967195033215?ixlib=rb-1.2.1&auto=format&fit=crop&w=80&q=60" class="w-16 h-16 rounded-lg object-cover" alt="科学实验">
+                        <div class="ml-3 flex-1">
+                            <h3 class="text-sm font-medium mb-1">家庭科学实验：探索化学反应</h3>
+                            <div class="flex items-center mb-2">
+                                <span class="text-xs bg-green-100 text-green-800 px-1.5 py-0.5 rounded-full">科学</span>
+                                <span class="text-xs text-gray-500 ml-2">5/7 课时</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="w-full text-sm text-blue-500 font-medium py-2">
+                    查看全部课程
+                </button>
+            </div>
+        </div>
+        
+        <!-- 我的徽章 -->
+        <div class="bg-white mt-4 p-4">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-bold">我的徽章</h2>
+                <button class="text-sm text-blue-500">查看全部</button>
+            </div>
+            <div class="grid grid-cols-4 gap-4">
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-14 rounded-full bg-yellow-100 border-2 border-yellow-500 flex items-center justify-center">
+                        <i class="fas fa-code text-yellow-500 text-lg"></i>
+                    </div>
+                    <span class="text-xs text-center mt-1">编程新手</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-14 rounded-full bg-blue-100 border-2 border-blue-500 flex items-center justify-center">
+                        <i class="fas fa-flask text-blue-500 text-lg"></i>
+                    </div>
+                    <span class="text-xs text-center mt-1">科学探索者</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-14 rounded-full bg-green-100 border-2 border-green-500 flex items-center justify-center">
+                        <i class="fas fa-robot text-green-500 text-lg"></i>
+                    </div>
+                    <span class="text-xs text-center mt-1">机器人达人</span>
+                </div>
+                <div class="flex flex-col items-center">
+                    <div class="w-14 h-14 rounded-full bg-gray-100 border-2 border-gray-300 flex items-center justify-center opacity-50">
+                        <i class="fas fa-lock text-gray-500 text-lg"></i>
+                    </div>
+                    <span class="text-xs text-center mt-1">未解锁</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 我的作品 -->
+        <div class="bg-white mt-4 p-4 mb-24">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-lg font-bold">我的作品</h2>
+                <button class="text-sm text-blue-500">查看全部</button>
+            </div>
+            <div class="grid grid-cols-2 gap-3">
+                <div class="rounded-lg overflow-hidden shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="w-full h-28 object-cover" alt="作品1">
+                    <div class="p-2">
+                        <h3 class="text-xs font-medium">自动避障小车</h3>
+                        <div class="flex items-center mt-1">
+                            <i class="far fa-heart text-xs text-gray-500 mr-1"></i>
+                            <span class="text-xs text-gray-500">32</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-lg overflow-hidden shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1607977027972-e5d5bc62f224?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60" class="w-full h-28 object-cover" alt="作品2">
+                    <div class="p-2">
+                        <h3 class="text-xs font-medium">火山模型实验</h3>
+                        <div class="flex items-center mt-1">
+                            <i class="far fa-heart text-xs text-gray-500 mr-1"></i>
+                            <span class="text-xs text-gray-500">24</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 底部导航栏 -->
+    <div class="tab-bar">
+        <div class="tab-item" data-tab="home">
+            <i class="tab-icon fas fa-compass"></i>
+            <span>探索</span>
+        </div>
+        <div class="tab-item" data-tab="course">
+            <i class="tab-icon fas fa-book"></i>
+            <span>课程</span>
+        </div>
+        <div class="tab-item" data-tab="activity">
+            <i class="tab-icon fas fa-flask"></i>
+            <span>活动</span>
+        </div>
+        <div class="tab-item" data-tab="community">
+            <i class="tab-icon fas fa-users"></i>
+            <span>社区</span>
+        </div>
+        <div class="tab-item active" data-tab="profile">
+            <i class="tab-icon fas fa-user"></i>
+            <span>我的</span>
+        </div>
+    </div>
+    
+    <script src="components.js"></script>
+</body>
+</html> 

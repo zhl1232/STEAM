@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>STEAM教育APP原型</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #f0f2f5;
+        }
+        .phone-frame {
+            width: 390px;
+            height: 844px;
+            border-radius: 44px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            margin: 30px;
+            background-color: white;
+            border: 10px solid #1a1a1a;
+        }
+        .iframe-container {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        .prototype-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .prototype-label {
+            text-align: center;
+            font-weight: bold;
+            margin-top: -20px;
+            margin-bottom: 30px;
+            font-size: 18px;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen p-4">
+    <div class="container mx-auto">
+        <h1 class="text-3xl font-bold text-center my-8">STEAM教育APP原型设计</h1>
+        
+        <div class="prototype-grid">
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="home.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">首页/探索页</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="course.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">课程详情页</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="activity.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">活动页</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="profile.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">个人中心页</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="community.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">社区页</div>
+            </div>
+            
+            <!-- 添加STEAM子页面 -->
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="science.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">科学页面</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="technology.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">技术页面</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="engineering.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">工程页面</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="art.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">艺术页面</div>
+            </div>
+            
+            <div class="flex flex-col items-center">
+                <div class="phone-frame">
+                    <iframe src="mathematics.html" class="iframe-container"></iframe>
+                </div>
+                <div class="prototype-label">数学页面</div>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 
