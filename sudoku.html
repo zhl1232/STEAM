@@ -102,12 +102,16 @@
             background-color: #f0f0f0;
         }
         
+        .sudoku-cell:not(.given) {
+            color: #007aff;
+        }
+        
         .sudoku-cell.selected {
             background-color: #e6f7ff;
         }
         
         .sudoku-cell.related {
-            background-color: #f0f8ff;
+            background-color: #4aa2ee;
         }
         
         .sudoku-cell.error {
@@ -368,6 +372,9 @@
             let currentDifficulty = 'medium';
             let cellNotes = Array(9).fill().map(() => Array(9).fill().map(() => Array(9).fill(false)));
             
+            // 事件监听器绑定标志，防止重复绑定
+            let eventListenersInitialized = false;
+            
             // 初始化游戏
             initializeGame();
             
@@ -399,17 +406,22 @@
                 // 初始化笔记数组
                 cellNotes = Array(9).fill().map(() => Array(9).fill().map(() => Array(9).fill(false)));
                 
-                // 添加事件监听器
-                document.getElementById('new-game-btn').addEventListener('click', startNewGame);
-                document.getElementById('hint-btn').addEventListener('click', giveHint);
-                document.getElementById('undo-btn').addEventListener('click', undoMove);
-                document.getElementById('notes-btn').addEventListener('click', toggleNoteMode);
-                
-                // 数字按钮事件
-                document.querySelectorAll('.number-btn').forEach(btn => {
-                    btn.addEventListener('click', function() {
-                        if (selectedCell) {
-                            const number = parseInt(this.dataset.number);
+                // 仅在第一次初始化时添加事件监听器
+                if (!eventListenersInitialized) {
+                    // 添加事件监听器
+                    document.getElementById('new-game-btn').addEventListener('click', startNewGame);
+                    document.getElementById('hint-btn').addEventListener('click', giveHint);
+                    document.getElementById('undo-btn').addEventListener('click', undoMove);
+                    document.getElementById('notes-btn').addEventListener('click', toggleNoteMode);
+                    
+                    // 数字按钮事件 - 使用事件委托模式
+                    const numberPad = document.querySelector('.number-pad');
+                    numberPad.addEventListener('click', function(event) {
+                        const target = event.target;
+                        
+                        // 确保点击的是数字按钮
+                        if (target.classList.contains('number-btn') && selectedCell) {
+                            const number = parseInt(target.dataset.number);
                             const num = isNaN(number) ? 0 : number;
                             
                             // 检查是否处于笔记模式且是有效数字
@@ -428,7 +440,10 @@
                             }
                         }
                     });
-                });
+                    
+                    // 标记事件监听器已初始化
+                    eventListenersInitialized = true;
+                }
                 
                 // 开始计时
                 startTimer();
@@ -803,7 +818,7 @@
                 
                 selectedCell.innerHTML = ''; // 清除笔记
                 selectedCell.textContent = solution[row][col];
-                selectedCell.classList.add('given');
+                selectedCell.classList.add('given'); // 提示值也标记为given以使用相同的颜色样式
                 selectedCell.classList.remove('error');
                 
                 // 检查游戏是否完成
@@ -867,16 +882,16 @@
                     cell.classList.remove('related');
                 });
                 
+                // 重置笔记模式按钮
+                document.getElementById('notes-btn').classList.remove('primary');
+                
                 // 停止旧计时器
                 clearInterval(timerInterval);
                 
                 // 更新错误计数
                 document.getElementById('error-count').textContent = '0/3';
                 
-                // 重置笔记模式按钮
-                document.getElementById('notes-btn').classList.remove('primary');
-                
-                // 初始化新游戏
+                // 初始化新游戏 - 不会重复添加事件监听器
                 initializeGame();
             }
             
