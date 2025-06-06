@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { theme } from '../utils/theme';
+import { useNavigation } from '@react-navigation/native';
+import { theme } from '../../utils/theme';
 
 const ArtScreen: React.FC = () => {
+  const navigation = useNavigation();
   const artForms = [
     { id: '1', name: '绘画', icon: 'brush-outline' as const, color: theme.colors.warning },
     { id: '2', name: '雕塑', icon: 'cube-outline' as const, color: theme.colors.primary },
@@ -103,6 +105,12 @@ const ArtScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       {/* 顶部导航栏 */}
       <View style={styles.header}>
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>艺术创作</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconButton}>
@@ -283,6 +291,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border,
   },
+  backButton: {
+    padding: theme.spacing.xs,
+  },
   headerTitle: {
     fontSize: theme.fontSize.xl,
     fontWeight: theme.fontWeight.bold,
@@ -303,8 +314,7 @@ const styles = StyleSheet.create({
     marginBottom: theme.spacing.lg,
   },
   artBanner: {
-    background: 'linear-gradient(45deg, #ff7eb3, #ff758c)',
-    backgroundColor: theme.colors.arts,
+    backgroundColor: 'linear-gradient(45deg, #ff7eb3, #ff758c)',
     borderRadius: theme.borderRadius.lg,
     padding: theme.spacing.lg,
     alignItems: 'center',

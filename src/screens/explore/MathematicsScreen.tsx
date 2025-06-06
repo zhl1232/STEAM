@@ -9,59 +9,49 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { theme } from '../utils/theme';
+import { useNavigation } from '@react-navigation/native';
+import { theme } from '../../utils/theme';
 
-const EngineeringScreen: React.FC = () => {
-  const engineeringCategories = [
-    { id: '1', name: '结构工程', description: '桥梁、建筑、塔楼', icon: 'business-outline' as const, color: theme.colors.primary },
-    { id: '2', name: '电气工程', description: '电路、电子设计', icon: 'flash-outline' as const, color: theme.colors.success },
-    { id: '3', name: '航空航天', description: '火箭、飞行器设计', icon: 'rocket-outline' as const, color: theme.colors.warning },
-    { id: '4', name: '机械工程', description: '机械设计与制造', icon: 'settings-outline' as const, color: theme.colors.error },
+const MathematicsScreen: React.FC = () => {
+  const navigation = useNavigation();
+  const mathCategories = [
+    { id: '1', name: '代数', icon: 'calculator-outline' as const, color: theme.colors.primary },
+    { id: '2', name: '几何', icon: 'shapes-outline' as const, color: theme.colors.success },
+    { id: '3', name: '统计', icon: 'bar-chart-outline' as const, color: theme.colors.secondary },
+    { id: '4', name: '微积分', icon: 'infinite-outline' as const, color: theme.colors.error },
+    { id: '5', name: '概率', icon: 'dice-outline' as const, color: theme.colors.warning },
+    { id: '6', name: '逻辑', icon: 'git-network-outline' as const, color: theme.colors.textSecondary },
   ];
 
-  const engineeringCourses = [
+  const mathCourses = [
     {
       id: '1',
-      title: '桥梁设计与结构力学基础',
-      category: '结构工程',
+      title: '数学建模与问题解决',
+      category: '建模',
       categoryColor: theme.colors.primary,
-      ageRange: '10-16岁',
-      rating: 4.8,
-      reviewCount: 486,
-      description: '了解桥梁设计原理，动手制作不同类型的桥梁模型',
-      image: 'https://images.unsplash.com/photo-1517420704952-d9f39e95b43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
+      ageRange: '12-16岁',
+      rating: 4.9,
+      reviewCount: 412,
+      description: '学习如何使用数学模型解决实际问题，培养分析能力',
+      image: 'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80',
     },
     {
       id: '2',
-      title: '简单机械原理与应用',
-      category: '机械工程',
-      categoryColor: theme.colors.error,
-      ageRange: '12-18岁',
+      title: '趣味几何：从平面到立体',
+      category: '几何',
+      categoryColor: theme.colors.success,
+      ageRange: '8-12岁',
       rating: 4.7,
-      reviewCount: 342,
-      description: '通过实践项目学习杠杆、滑轮、齿轮等简单机械原理',
+      reviewCount: 368,
+      description: '通过动手制作和交互游戏，理解几何概念和空间关系',
     },
   ];
 
-  const materials = ['纸板', '竹签', '橡皮筋', '胶带', '剪刀'];
-
-  const studentProjects = [
-    {
-      id: '1',
-      title: '自动浇水系统',
-      author: '张明',
-      age: 15,
-      rating: 4.9,
-      image: 'https://images.unsplash.com/photo-1612387290123-34af734b5f61?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    },
-    {
-      id: '2',
-      title: '风力发电模型',
-      author: '李华',
-      age: 16,
-      rating: 4.8,
-      image: 'https://images.unsplash.com/photo-1568910748155-01ca989dbdd6?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    },
+  const mathGames = [
+    { id: '1', name: '数独挑战', type: '逻辑思维', icon: 'extension-puzzle-outline' as const, color: theme.colors.primary },
+    { id: '2', name: '数学解谜', type: '问题解决', icon: 'bulb-outline' as const, color: theme.colors.success },
+    { id: '3', name: '概率游戏', type: '机率思维', icon: 'dice-outline' as const, color: theme.colors.warning },
+    { id: '4', name: '数学竞赛', type: '挑战自我', icon: 'calculator-outline' as const, color: theme.colors.secondary },
   ];
 
   const renderStars = (rating: number) => {
@@ -95,7 +85,13 @@ const EngineeringScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       {/* 顶部导航栏 */}
       <View style={styles.header}>
-        <Text style={styles.headerTitle}>工程设计</Text>
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
+        </TouchableOpacity>
+        <Text style={styles.headerTitle}>数学乐园</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconButton}>
             <Ionicons name="search" size={24} color={theme.colors.text} />
@@ -107,58 +103,45 @@ const EngineeringScreen: React.FC = () => {
       </View>
 
       <ScrollView style={styles.scrollView} showsVerticalScrollIndicator={false}>
-        {/* 顶部轮播 */}
+        {/* 数学主题横幅 */}
         <View style={styles.section}>
-          <View style={styles.featuredCard}>
-            <Image
-              source={{
-                uri: 'https://images.unsplash.com/photo-1581091226033-d5c48150dbaa?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80'
-              }}
-              style={styles.featuredImage}
-            />
-            <View style={styles.featuredContent}>
-              <View style={styles.offerBadge}>
-                <Text style={styles.offerBadgeText}>限时优惠</Text>
-              </View>
-              <Text style={styles.featuredTitle}>青少年工程设计挑战营</Text>
-              <Text style={styles.featuredDescription}>
-                设计并制作你自己的桥梁、塔楼和结构，学习工程力学基础知识
-              </Text>
-              <TouchableOpacity style={styles.enrollButton}>
-                <Text style={styles.enrollButtonText}>立即报名</Text>
-              </TouchableOpacity>
+          <View style={styles.mathBanner}>
+            <Text style={styles.bannerTitle}>发现数学的奇妙世界</Text>
+            <Text style={styles.bannerSubtitle}>数学不仅仅是公式和计算，更是创造和解决问题的工具</Text>
+            <View style={styles.mathExample}>
+              <Text style={styles.formulaText}>f(x) = ax² + bx + c</Text>
             </View>
+            <TouchableOpacity style={styles.bannerButton}>
+              <Text style={styles.bannerButtonText}>开始数学探索</Text>
+            </TouchableOpacity>
           </View>
         </View>
 
-        {/* 工程类别 */}
+        {/* 数学领域 */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>工程类别</Text>
+          <Text style={styles.sectionTitle}>数学领域</Text>
           <View style={styles.categoriesGrid}>
-            {engineeringCategories.map((category) => (
+            {mathCategories.map((category) => (
               <TouchableOpacity key={category.id} style={styles.categoryCard}>
                 <View style={[styles.categoryIcon, { backgroundColor: `${category.color}20` }]}>
                   <Ionicons name={category.icon} size={24} color={category.color} />
                 </View>
-                <View style={styles.categoryInfo}>
-                  <Text style={styles.categoryName}>{category.name}</Text>
-                  <Text style={styles.categoryDescription}>{category.description}</Text>
-                </View>
+                <Text style={styles.categoryName}>{category.name}</Text>
               </TouchableOpacity>
             ))}
           </View>
         </View>
 
-        {/* 热门工程课程 */}
+        {/* 热门数学课程 */}
         <View style={styles.section}>
           <View style={styles.sectionHeader}>
-            <Text style={styles.sectionTitle}>热门工程课程</Text>
+            <Text style={styles.sectionTitle}>热门数学课程</Text>
             <TouchableOpacity>
               <Text style={styles.seeAllText}>查看全部</Text>
             </TouchableOpacity>
           </View>
           
-          {engineeringCourses.map((course) => (
+          {mathCourses.map((course) => (
             <TouchableOpacity key={course.id} style={styles.courseCard}>
               {course.image && (
                 <Image source={{ uri: course.image }} style={styles.courseImage} />
@@ -180,7 +163,7 @@ const EngineeringScreen: React.FC = () => {
                       {renderStars(course.rating)}
                     </View>
                     <Text style={styles.ratingText}>
-                      {course.rating} | {course.reviewCount}人已学习
+                      {course.rating} ({course.reviewCount}人已学习)
                     </Text>
                   </View>
                 </View>
@@ -189,63 +172,52 @@ const EngineeringScreen: React.FC = () => {
           ))}
         </View>
 
-        {/* 本周工程挑战 */}
+        {/* 每日数学挑战 */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>本周工程挑战</Text>
+          <Text style={styles.sectionTitle}>每日数学挑战</Text>
           <View style={styles.challengeCard}>
-            <Text style={styles.challengeTitle}>设计一个抗震建筑模型</Text>
-            <Text style={styles.challengeDescription}>
-              使用日常材料设计一个能够在模拟地震环境下保持稳定的建筑模型
-            </Text>
-            
-            <View style={styles.materialsSection}>
-              <Text style={styles.materialsTitle}>所需材料：</Text>
-              <View style={styles.materialsContainer}>
-                {materials.map((material, index) => (
-                  <View key={index} style={styles.materialTag}>
-                    <Text style={styles.materialText}>{material}</Text>
-                  </View>
-                ))}
-              </View>
+            <View style={styles.challengeHeader}>
+              <Text style={styles.challengeTitle}>今日挑战题</Text>
+              <Text style={styles.challengeDifficulty}>难度: ★★★☆☆</Text>
             </View>
-            
-            <View style={styles.difficultySection}>
-              <Text style={styles.difficultyTitle}>难度级别：</Text>
-              <View style={styles.difficultyStars}>
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <Ionicons
-                    key={star}
-                    name="star"
-                    size={16}
-                    color={star <= 3 ? "#fbbf24" : "#e5e5e5"}
-                  />
-                ))}
-              </View>
+            <View style={styles.challengeContent}>
+              <Text style={styles.challengeQuestion}>
+                一个商店以每件120元的价格销售T恤。如果购买3件或以上，每件可以打9折。小明想要买5件，他需要支付多少钱？
+              </Text>
             </View>
-            
             <TouchableOpacity style={styles.challengeButton}>
-              <Text style={styles.challengeButtonText}>参与挑战</Text>
+              <Text style={styles.challengeButtonText}>提交答案</Text>
             </TouchableOpacity>
+            <TouchableOpacity style={styles.hintButton}>
+              <Text style={styles.hintButtonText}>查看提示</Text>
+            </TouchableOpacity>
+            <View style={styles.challengeStats}>
+              <Text style={styles.challengeStatsText}>
+                <Ionicons name="people" size={12} color={theme.colors.textSecondary} /> 237人已解答
+              </Text>
+              <Text style={styles.challengeStatsText}>
+                <Ionicons name="time" size={12} color={theme.colors.textSecondary} /> 今日更新
+              </Text>
+            </View>
           </View>
         </View>
 
-        {/* 学生工程项目展示 */}
+        {/* 数学游戏 */}
         <View style={styles.section}>
-          <Text style={styles.sectionTitle}>学生工程项目展示</Text>
-          <View style={styles.projectsGrid}>
-            {studentProjects.map((project) => (
-              <TouchableOpacity key={project.id} style={styles.projectCard}>
-                <Image source={{ uri: project.image }} style={styles.projectImage} />
-                <View style={styles.projectContent}>
-                  <Text style={styles.projectTitle}>{project.title}</Text>
-                  <Text style={styles.projectAuthor}>
-                    {project.author} - {project.age}岁
-                  </Text>
-                  <View style={styles.projectRating}>
-                    <Ionicons name="star" size={12} color="#fbbf24" />
-                    <Text style={styles.projectRatingText}>{project.rating}</Text>
-                  </View>
+          <View style={styles.sectionHeader}>
+            <Text style={styles.sectionTitle}>数学游戏</Text>
+            <TouchableOpacity>
+              <Text style={styles.seeAllText}>查看全部</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.gamesGrid}>
+            {mathGames.map((game) => (
+              <TouchableOpacity key={game.id} style={styles.gameCard}>
+                <View style={[styles.gameIcon, { backgroundColor: `${game.color}20` }]}>
+                  <Ionicons name={game.icon} size={24} color={game.color} />
                 </View>
+                <Text style={styles.gameName}>{game.name}</Text>
+                <Text style={styles.gameType}>{game.type}</Text>
               </TouchableOpacity>
             ))}
           </View>
@@ -270,6 +242,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border,
   },
+  backButton: {
+    padding: theme.spacing.xs,
+  },
   headerTitle: {
     fontSize: theme.fontSize.xl,
     fontWeight: theme.fontWeight.bold,
@@ -289,53 +264,49 @@ const styles = StyleSheet.create({
     paddingHorizontal: theme.spacing.md,
     marginBottom: theme.spacing.lg,
   },
-  featuredCard: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.md,
-    overflow: 'hidden',
-    ...theme.shadows.small,
+  mathBanner: {
+    backgroundColor: theme.colors.mathematics,
+    borderRadius: theme.borderRadius.lg,
+    padding: theme.spacing.lg,
+    alignItems: 'center',
   },
-  featuredImage: {
-    width: '100%',
-    height: 180,
-    resizeMode: 'cover',
-  },
-  featuredContent: {
-    padding: theme.spacing.md,
-  },
-  offerBadge: {
-    backgroundColor: theme.colors.warning,
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
-    borderRadius: 20,
-    alignSelf: 'flex-start',
-    marginBottom: theme.spacing.sm,
-  },
-  offerBadgeText: {
-    fontSize: theme.fontSize.xs,
-    fontWeight: theme.fontWeight.semibold,
-    color: '#FFFFFF',
-  },
-  featuredTitle: {
-    fontSize: theme.fontSize.lg,
+  bannerTitle: {
+    fontSize: theme.fontSize.xl,
     fontWeight: theme.fontWeight.bold,
-    color: theme.colors.text,
+    color: '#FFFFFF',
+    textAlign: 'center',
     marginBottom: theme.spacing.sm,
   },
-  featuredDescription: {
+  bannerSubtitle: {
     fontSize: theme.fontSize.sm,
-    color: theme.colors.textSecondary,
-    marginBottom: theme.spacing.md,
-    lineHeight: 20,
-  },
-  enrollButton: {
-    backgroundColor: theme.colors.warning,
-    paddingVertical: theme.spacing.sm,
-    borderRadius: theme.borderRadius.sm,
-  },
-  enrollButtonText: {
     color: '#FFFFFF',
-    fontSize: theme.fontSize.md,
+    textAlign: 'center',
+    opacity: 0.9,
+    marginBottom: theme.spacing.md,
+  },
+  mathExample: {
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    borderRadius: theme.borderRadius.sm,
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.md,
+    marginBottom: theme.spacing.md,
+  },
+  formulaText: {
+    fontSize: theme.fontSize.lg,
+    fontFamily: 'serif',
+    color: theme.colors.text,
+    textAlign: 'center',
+  },
+  bannerButton: {
+    backgroundColor: '#FFFFFF',
+    paddingVertical: theme.spacing.sm,
+    paddingHorizontal: theme.spacing.lg,
+    borderRadius: theme.borderRadius.sm,
+    width: '100%',
+  },
+  bannerButtonText: {
+    color: theme.colors.mathematics,
+    fontSize: theme.fontSize.sm,
     fontWeight: theme.fontWeight.medium,
     textAlign: 'center',
   },
@@ -357,15 +328,14 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeight.medium,
   },
   categoriesGrid: {
-    gap: theme.spacing.sm,
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
   },
   categoryCard: {
-    backgroundColor: theme.colors.surface,
-    borderRadius: theme.borderRadius.md,
-    padding: theme.spacing.sm,
-    flexDirection: 'row',
+    width: '30%',
     alignItems: 'center',
-    ...theme.shadows.small,
+    marginBottom: theme.spacing.md,
   },
   categoryIcon: {
     width: 48,
@@ -373,20 +343,13 @@ const styles = StyleSheet.create({
     borderRadius: 24,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: theme.spacing.sm,
-  },
-  categoryInfo: {
-    flex: 1,
+    marginBottom: theme.spacing.sm,
   },
   categoryName: {
     fontSize: theme.fontSize.sm,
     fontWeight: theme.fontWeight.medium,
     color: theme.colors.text,
-    marginBottom: theme.spacing.xs,
-  },
-  categoryDescription: {
-    fontSize: theme.fontSize.xs,
-    color: theme.colors.textSecondary,
+    textAlign: 'center',
   },
   courseCard: {
     backgroundColor: theme.colors.surface,
@@ -457,59 +420,37 @@ const styles = StyleSheet.create({
     padding: theme.spacing.md,
     ...theme.shadows.small,
   },
+  challengeHeader: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: theme.spacing.sm,
+  },
   challengeTitle: {
     fontSize: theme.fontSize.lg,
     fontWeight: theme.fontWeight.bold,
     color: theme.colors.text,
-    marginBottom: theme.spacing.sm,
   },
-  challengeDescription: {
-    fontSize: theme.fontSize.sm,
-    color: theme.colors.textSecondary,
-    marginBottom: theme.spacing.md,
-    lineHeight: 20,
-  },
-  materialsSection: {
-    marginBottom: theme.spacing.md,
-  },
-  materialsTitle: {
-    fontSize: theme.fontSize.sm,
-    fontWeight: theme.fontWeight.medium,
-    color: theme.colors.text,
-    marginBottom: theme.spacing.sm,
-  },
-  materialsContainer: {
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    gap: theme.spacing.xs,
-  },
-  materialTag: {
-    backgroundColor: theme.colors.background,
-    paddingHorizontal: theme.spacing.sm,
-    paddingVertical: theme.spacing.xs,
-    borderRadius: theme.borderRadius.sm,
-  },
-  materialText: {
+  challengeDifficulty: {
     fontSize: theme.fontSize.xs,
-    color: theme.colors.text,
+    color: theme.colors.textSecondary,
   },
-  difficultySection: {
+  challengeContent: {
+    backgroundColor: theme.colors.background,
+    borderRadius: theme.borderRadius.sm,
+    padding: theme.spacing.md,
     marginBottom: theme.spacing.md,
   },
-  difficultyTitle: {
+  challengeQuestion: {
     fontSize: theme.fontSize.sm,
-    fontWeight: theme.fontWeight.medium,
     color: theme.colors.text,
-    marginBottom: theme.spacing.sm,
-  },
-  difficultyStars: {
-    flexDirection: 'row',
-    gap: 2,
+    lineHeight: 20,
   },
   challengeButton: {
     backgroundColor: theme.colors.primary,
     paddingVertical: theme.spacing.sm,
     borderRadius: theme.borderRadius.sm,
+    marginBottom: theme.spacing.sm,
   },
   challengeButtonText: {
     color: '#FFFFFF',
@@ -517,46 +458,60 @@ const styles = StyleSheet.create({
     fontWeight: theme.fontWeight.medium,
     textAlign: 'center',
   },
-  projectsGrid: {
+  hintButton: {
+    backgroundColor: theme.colors.background,
+    paddingVertical: theme.spacing.sm,
+    borderRadius: theme.borderRadius.sm,
+    marginBottom: theme.spacing.md,
+  },
+  hintButtonText: {
+    color: theme.colors.text,
+    fontSize: theme.fontSize.md,
+    fontWeight: theme.fontWeight.medium,
+    textAlign: 'center',
+  },
+  challengeStats: {
     flexDirection: 'row',
     justifyContent: 'space-between',
   },
-  projectCard: {
+  challengeStatsText: {
+    fontSize: theme.fontSize.sm,
+    color: theme.colors.textSecondary,
+  },
+  gamesGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+  },
+  gameCard: {
     width: '47%',
     backgroundColor: theme.colors.surface,
     borderRadius: theme.borderRadius.md,
-    overflow: 'hidden',
+    padding: theme.spacing.md,
+    alignItems: 'center',
+    marginBottom: theme.spacing.sm,
     ...theme.shadows.small,
   },
-  projectImage: {
-    width: '100%',
-    height: 128,
-    resizeMode: 'cover',
+  gameIcon: {
+    width: 48,
+    height: 48,
+    borderRadius: 24,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: theme.spacing.sm,
   },
-  projectContent: {
-    padding: theme.spacing.sm,
-  },
-  projectTitle: {
+  gameName: {
     fontSize: theme.fontSize.sm,
     fontWeight: theme.fontWeight.medium,
     color: theme.colors.text,
     marginBottom: theme.spacing.xs,
+    textAlign: 'center',
   },
-  projectAuthor: {
+  gameType: {
     fontSize: theme.fontSize.xs,
     color: theme.colors.textSecondary,
-    marginBottom: theme.spacing.xs,
-  },
-  projectRating: {
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  projectRatingText: {
-    fontSize: theme.fontSize.xs,
-    color: theme.colors.text,
-    fontWeight: theme.fontWeight.medium,
-    marginLeft: 2,
+    textAlign: 'center',
   },
 });
 
-export default EngineeringScreen;
+export default MathematicsScreen;

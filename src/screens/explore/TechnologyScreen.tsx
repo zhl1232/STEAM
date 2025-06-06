@@ -9,9 +9,11 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { theme } from '../utils/theme';
+import { useNavigation } from '@react-navigation/native';
+import { theme } from '../../utils/theme';
 
 const TechnologyScreen: React.FC = () => {
+  const navigation = useNavigation();
   const techCategories = [
     { id: '1', name: '编程', icon: 'code-outline' as const, color: theme.colors.primary },
     { id: '2', name: '机器人', icon: 'hardware-chip-outline' as const, color: theme.colors.success },
@@ -49,6 +51,12 @@ const TechnologyScreen: React.FC = () => {
     <SafeAreaView style={styles.container}>
       {/* 顶部导航栏 */}
       <View style={styles.header}>
+        <TouchableOpacity 
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
+        </TouchableOpacity>
         <Text style={styles.headerTitle}>技术学习</Text>
         <View style={styles.headerIcons}>
           <TouchableOpacity style={styles.iconButton}>
@@ -202,6 +210,9 @@ const styles = StyleSheet.create({
     backgroundColor: theme.colors.surface,
     borderBottomWidth: 1,
     borderBottomColor: theme.colors.border,
+  },
+  backButton: {
+    padding: theme.spacing.xs,
   },
   headerTitle: {
     fontSize: theme.fontSize.xl,
