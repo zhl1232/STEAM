@@ -1,0 +1,21 @@
+{
+  "name": "@steam/utils",
+  "version": "1.0.0",
+  "description": "Utility functions for STEAM project",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@steam/types": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.7.3"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  }
+}

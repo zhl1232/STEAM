@@ -1,0 +1,50 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "module": "commonjs",
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "sourceMap": true,
+    "outDir": "./dist",
+    "rootDir": "./src",
+    "baseUrl": "./",
+    "noEmit": false,
+    "composite": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+    "paths": {
+      "@steam/shared/*": [
+        "../../packages/shared/src/*"
+      ],
+      "@steam/types/*": [
+        "../../packages/types/src/*"
+      ],
+      "@steam/utils/*": [
+        "../../packages/utils/src/*"
+      ]
+    }
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "test",
+    "**/*.spec.ts",
+    "**/*.test.ts"
+  ],
+  "references": [
+    {
+      "path": "../../packages/shared"
+    },
+    {
+      "path": "../../packages/types"
+    },
+    {
+      "path": "../../packages/utils"
+    }
+  ]
+}

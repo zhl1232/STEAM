@@ -1,38 +1,60 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
+    "target": "ES2023",
+    "lib": [
+      "ES2023",
+      "DOM"
+    ],
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "declaration": true,
     "strict": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "jsx": "react-native",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
     "skipLibCheck": true,
-    "target": "esnext",
-    "baseUrl": "./",
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "incremental": true,
+    "baseUrl": ".",
+    "types": [
+      "node"
+    ],
     "paths": {
-      "@/*": [
-        "./src/*"
+      "@steam/shared/*": [
+        "packages/shared/src/*"
       ],
-      "@/components/*": [
-        "./src/components/*"
+      "@steam/types/*": [
+        "packages/types/src/*"
       ],
-      "@/screens/*": [
-        "./src/screens/*"
-      ],
-      "@/types/*": [
-        "./src/types/*"
-      ],
-      "@/utils/*": [
-        "./src/utils/*"
+      "@steam/utils/*": [
+        "packages/utils/src/*"
       ]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.tsx"
-  ],
+  "include": [],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "dist",
+    "build",
+    ".expo"
+  ],
+  "references": [
+    {
+      "path": "./apps/backend"
+    },
+    {
+      "path": "./apps/mobile"
+    },
+    {
+      "path": "./packages/shared"
+    },
+    {
+      "path": "./packages/types"
+    },
+    {
+      "path": "./packages/utils"
+    }
   ]
 }
