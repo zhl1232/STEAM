@@ -79,4 +79,12 @@ export interface BaseEntity {
   id: string;
   createdAt: Date;
   updatedAt: Date;
-} 
+}
+
+export interface Course {
+  id: string;
+  title: string;
+  description: string;
+  category: string;
+  duration: number;
+}
