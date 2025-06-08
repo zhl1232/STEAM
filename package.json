@@ -25,10 +25,16 @@
     "backend:test": "pnpm --filter backend test"
   },
   "devDependencies": {
-    "typescript": "^5.7.3",
-    "@types/node": "^22.10.7"
+    "@types/node": "^22.15.30",
+    "typescript": "^5.8.3"
   },
-  "keywords": ["STEAM", "education", "learning", "platform", "monorepo"],
+  "keywords": [
+    "STEAM",
+    "education",
+    "learning",
+    "platform",
+    "monorepo"
+  ],
   "author": "",
   "license": "ISC",
   "workspaces": [
