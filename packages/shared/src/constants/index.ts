@@ -1,7 +1,7 @@
 /**
  * 项目常量定义
  */
-export const API_BASE_URL = 'https://steam-ngg5.onrender.com/';
+export const API_BASE_URL = 'https://steam-ngg5.onrender.com';
 
 export const APP_CONFIG = {
   NAME: 'STEAM',
