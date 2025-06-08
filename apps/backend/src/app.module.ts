@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { CoursesModule } from './courses/courses.module';
-import { Course } from './courses/entities/course.entity'; // 1. 在文件顶部导入 Course 实体
+// We no longer need to import the entity class here
 
 @Module({
   imports: [
@@ -17,13 +17,20 @@ import { Course } from './courses/entities/course.entity'; // 1. 在文件顶部
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        url: configService.get('DATABASE_URL'),
-        synchronize: true,
-        // autoLoadEntities: true, // 2. 移除或注释掉此行
-        entities: [Course],       // 3. 替换为此行，明确注册实体
-      }),
+      useFactory: (configService: ConfigService) => {
+        // For debugging the path in Render's logs
+        console.log('Executing in directory:', __dirname);
+
+        return {
+          type: 'postgres',
+          url: configService.get('DATABASE_URL'),
+          synchronize: true, // Warning: Set to false in a real production environment
+
+          // Use a glob pattern to find all .entity.js files
+          // This is the most reliable method for production builds.
+          entities: [__dirname + '/**/*.entity{.ts,.js}'],
+        };
+      },
     }),
 
     CoursesModule,
