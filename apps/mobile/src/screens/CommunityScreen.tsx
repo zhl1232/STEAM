@@ -115,7 +115,7 @@ const CommunityScreen: React.FC = () => {
             style={styles.postCard}
             onPress={() => {
               console.log('导航到帖子详情页面', post.id);
-              // navigation.navigate('PostDetail', { postId: post.id });
+              (navigation as any).navigate('PostDetail', { postId: post.id });
             }}
           >
             {/* 用户信息 */}

@@ -2,14 +2,65 @@
  * 共享类型定义
  */
 
+// 用户角色枚举
+export enum UserRole {
+  STUDENT = 'student',
+  TEACHER = 'teacher',
+  ADMIN = 'admin'
+}
+
 // 用户相关类型
 export interface User {
   id: string;
   username: string;
   email: string;
-  avatar?: string;
-  createdAt: Date;
-  updatedAt: Date;
+  phone_number?: string;
+  avatar_url?: string;
+  nickname: string;
+  role: UserRole;
+  bio?: string;
+  created_at: Date;
+  updated_at: Date;
+  last_login_at?: Date;
+  is_active: boolean;
+}
+
+// 用户注册请求数据类型
+export interface CreateUserRequest {
+  username: string;
+  password: string;
+  email: string;
+  phone_number?: string;
+  avatar_url?: string;
+  nickname: string;
+  role?: UserRole;
+  bio?: string;
+}
+
+// 用户注册表单数据类型
+export interface RegisterFormData {
+  username: string;
+  password: string;
+  confirmPassword: string;
+  email: string;
+  phone_number?: string;
+  avatar_url?: string;
+  nickname: string;
+  role?: UserRole;
+  bio?: string;
+}
+
+// 表单验证错误类型
+export interface FormValidationErrors {
+  username?: string;
+  password?: string;
+  confirmPassword?: string;
+  email?: string;
+  phone_number?: string;
+  avatar_url?: string;
+  nickname?: string;
+  role?: string;
+  bio?: string;
 }
 
 export interface UserProfile extends User {

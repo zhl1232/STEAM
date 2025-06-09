@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   View,
   Text,
@@ -7,88 +7,203 @@ import {
   StyleSheet,
   Image,
   TextInput,
+  ActivityIndicator,
+  Alert,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useRoute } from '@react-navigation/native';
 import { theme } from '../../utils/theme';
+import { 
+  getPostById, 
+  getPostComments, 
+  likePost, 
+  addComment,
+  Post,
+  Comment 
+} from '../../services/api';
 
 const PostDetailScreen: React.FC = () => {
   const navigation = useNavigation();
+  const route = useRoute();
   const [liked, setLiked] = useState(false);
   const [comment, setComment] = useState('');
+  const [post, setPost] = useState<Post | null>(null);
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [submittingComment, setSubmittingComment] = useState(false);
+  
+  // 从路由参数获取帖子ID，添加类型断言
+  const postId = (route.params as any)?.postId || '1'; // 默认值为1，方便测试
+  
+  // 加载帖子数据
+  useEffect(() => {
+    const loadPostData = async () => {
+      try {
+        setLoading(true);
+        // 同时获取帖子详情和评论
+        const [postResponse, commentsResponse] = await Promise.all([
+          getPostById(postId),
+          getPostComments(postId)
+        ]);
+        
+        if (postResponse.success && postResponse.data) {
+          setPost(postResponse.data);
+        } else {
+          // 如果API失败，使用模拟数据
+          setPost({
+            id: '1',
+            title: '我的第一个机器人制作经历',
+            content: '大家好！我想和大家分享一下我制作第一个机器人的经历。这是一个用Arduino控制的避障机器人，虽然功能很简单，但制作过程中学到了很多东西。\n\n首先是硬件组装，需要准备Arduino Uno、超声波传感器、舵机、车轮等组件。最困难的部分是编程，特别是传感器数据的处理和电机控制逻辑。\n\n经过一周的努力，机器人终于可以自动避开障碍物了！虽然还有很多需要改进的地方，但看到它能够自主移动的那一刻，真的很有成就感。\n\n希望能和大家交流更多机器人制作的经验！',
+            author: {
+              id: '1',
+              name: '小明同学',
+              avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+              level: 'Lv.5',
+              badge: '机器人爱好者',
+            },
+            images: [
+              'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+              'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
+            ],
+            category: '技术分享',
+            categoryColor: theme.colors.technology,
+            createdAt: '2小时前',
+            likes: 45,
+            comments: 12,
+            views: 156,
+          });
+        }
+        
+        if (commentsResponse.success && commentsResponse.data) {
+          setComments(commentsResponse.data);
+        } else {
+          // 如果API失败，使用模拟数据
+          setComments([
+            {
+              id: '1',
+              author: {
+                name: '科技小达人',
+                avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+                level: 'Lv.8',
+              },
+              content: '太厉害了！我也想尝试制作一个机器人，能分享一下具体的组件清单吗？',
+              createdAt: '1小时前',
+              likes: 8,
+            },
+            {
+              id: '2',
+              author: {
+                name: '编程新手',
+                avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+                level: 'Lv.3',
+              },
+              content: '代码部分有没有参考资料？Arduino编程对新手来说有点困难',
+              createdAt: '30分钟前',
+              likes: 3,
+            },
+            {
+              id: '3',
+              author: {
+                name: '机器人导师',
+                avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+                level: 'Lv.15',
+                badge: '认证导师',
+              },
+              content: '做得很好！建议下一步可以尝试添加蓝牙控制功能，这样可以用手机远程操控机器人。',
+              createdAt: '15分钟前',
+              likes: 15,
+            },
+          ]);
+        }
+      } catch (error) {
+        console.error('加载帖子数据失败:', error);
+        Alert.alert('错误', '加载帖子失败，请检查网络连接');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const post = {
-    id: '1',
-    title: '我的第一个机器人制作经历',
-    content: '大家好！我想和大家分享一下我制作第一个机器人的经历。这是一个用Arduino控制的避障机器人，虽然功能很简单，但制作过程中学到了很多东西。\n\n首先是硬件组装，需要准备Arduino Uno、超声波传感器、舵机、车轮等组件。最困难的部分是编程，特别是传感器数据的处理和电机控制逻辑。\n\n经过一周的努力，机器人终于可以自动避开障碍物了！虽然还有很多需要改进的地方，但看到它能够自主移动的那一刻，真的很有成就感。\n\n希望能和大家交流更多机器人制作的经验！',
-    author: {
-      id: '1',
-      name: '小明同学',
-      avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
-      level: 'Lv.5',
-      badge: '机器人爱好者',
-    },
-    images: [
-      'https://images.unsplash.com/photo-1635070041078-e363dbe005cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-      'https://images.unsplash.com/photo-1581833971358-2c8b550f87b3?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80',
-    ],
-    category: '技术分享',
-    categoryColor: theme.colors.technology,
-    createdAt: '2小时前',
-    likes: 45,
-    comments: 12,
-    views: 156,
-  };
+    loadPostData();
+  }, [postId]);
 
-  const comments = [
-    {
-      id: '1',
-      author: {
-        name: '科技小达人',
-        avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
-        level: 'Lv.8',
-      },
-      content: '太厉害了！我也想尝试制作一个机器人，能分享一下具体的组件清单吗？',
-      createdAt: '1小时前',
-      likes: 8,
-    },
-    {
-      id: '2',
-      author: {
-        name: '编程新手',
-        avatar: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
-        level: 'Lv.3',
-      },
-      content: '代码部分有没有参考资料？Arduino编程对新手来说有点困难',
-      createdAt: '30分钟前',
-      likes: 3,
-    },
-    {
-      id: '3',
-      author: {
-        name: '机器人导师',
-        avatar: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
-        level: 'Lv.15',
-        badge: '认证导师',
-      },
-      content: '做得很好！建议下一步可以尝试添加蓝牙控制功能，这样可以用手机远程操控机器人。',
-      createdAt: '15分钟前',
-      likes: 15,
-    },
-  ];
-
-  const handleLike = () => {
-    setLiked(!liked);
-  };
-
-  const handleComment = () => {
-    if (comment.trim()) {
-      // 这里应该发送评论到后端
-      console.log('发送评论:', comment);
-      setComment('');
+  const handleLike = async () => {
+    if (!post) return;
+    
+    try {
+      const response = await likePost(post.id);
+      if (response.success) {
+        setLiked(!liked);
+        // 更新帖子的点赞数
+        setPost(prev => prev ? { ...prev, likes: prev.likes + (liked ? -1 : 1) } : null);
+      }
+    } catch (error) {
+      console.error('点赞失败:', error);
     }
   };
+
+  const handleComment = async () => {
+    if (!comment.trim() || !post) return;
+    
+    try {
+      setSubmittingComment(true);
+      const response = await addComment(post.id, comment);
+      if (response.success && response.data) {
+        setComments(prev => [...prev, response.data!]);
+        setComment('');
+        // 更新帖子的评论数
+        setPost(prev => prev ? { ...prev, comments: prev.comments + 1 } : null);
+      }
+    } catch (error) {
+      console.error('发送评论失败:', error);
+      Alert.alert('错误', '发送评论失败，请重试');
+    } finally {
+      setSubmittingComment(false);
+    }
+  };
+
+  // 如果正在加载，显示加载状态
+  if (loading) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity 
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>社区详情</Text>
+          <View style={styles.headerIcons} />
+        </View>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color={theme.colors.primary} />
+          <Text style={styles.loadingText}>加载中...</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
+  // 如果没有帖子数据，显示错误状态
+  if (!post) {
+    return (
+      <SafeAreaView style={styles.container}>
+        <View style={styles.header}>
+          <TouchableOpacity 
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Ionicons name="arrow-back" size={24} color={theme.colors.text} />
+          </TouchableOpacity>
+          <Text style={styles.headerTitle}>社区详情</Text>
+          <View style={styles.headerIcons} />
+        </View>
+        <View style={styles.errorContainer}>
+          <Text style={styles.errorText}>帖子不存在或加载失败</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
 
   return (
     <SafeAreaView style={styles.container}>
@@ -223,13 +338,17 @@ const PostDetailScreen: React.FC = () => {
         <TouchableOpacity 
           style={[styles.sendButton, comment.trim() && styles.sendButtonActive]} 
           onPress={handleComment}
-          disabled={!comment.trim()}
+          disabled={!comment.trim() || submittingComment}
         >
-          <Ionicons 
-            name="send" 
-            size={20} 
-            color={comment.trim() ? '#FFFFFF' : theme.colors.textSecondary} 
-          />
+          {submittingComment ? (
+            <ActivityIndicator size="small" color="#FFFFFF" />
+          ) : (
+            <Ionicons 
+              name="send" 
+              size={20} 
+              color={comment.trim() ? '#FFFFFF' : theme.colors.textSecondary} 
+            />
+          )}
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -493,6 +612,25 @@ const styles = StyleSheet.create({
   },
   sendButtonActive: {
     backgroundColor: theme.colors.primary,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  loadingText: {
+    marginTop: theme.spacing.md,
+    fontSize: theme.fontSize.md,
+    color: theme.colors.textSecondary,
+  },
+  errorContainer: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  errorText: {
+    fontSize: theme.fontSize.md,
+    color: theme.colors.textSecondary,
   },
 });
 

@@ -1,7 +1,7 @@
 // apps/mobile/src/services/api.ts
 
 import { API_BASE_URL } from '@steam/shared/constants'; // 引入我们之前定义的后端基础URL
-import { Course } from '@steam/types'; // 引入共享的 Course 类型
+import { Course, User, CreateUserRequest, ApiResponse } from '@steam/types'; // 引入共享的类型
 
 // 创建一个通用的请求函数
 const request = async (endpoint: string, options?: RequestInit) => {
@@ -23,6 +23,41 @@ const request = async (endpoint: string, options?: RequestInit) => {
         throw error;
     }
 };
+
+// ===== 用户相关 API =====
+
+// 用户注册
+export const registerUser = (userData: CreateUserRequest): Promise<ApiResponse<User>> => {
+    return request('/users', {
+        method: 'POST',
+        body: JSON.stringify(userData),
+    });
+};
+
+// 检查用户名是否可用
+export const checkUsernameAvailability = (username: string): Promise<ApiResponse<{ available: boolean }>> => {
+    return request(`/users/username/${encodeURIComponent(username)}`);
+};
+
+// 检查邮箱是否可用
+export const checkEmailAvailability = (email: string): Promise<ApiResponse<{ available: boolean }>> => {
+    return request(`/users/email/${encodeURIComponent(email)}`);
+};
+
+// 获取用户信息
+export const getUserById = (id: string): Promise<ApiResponse<User>> => {
+    return request(`/users/${id}`);
+};
+
+// 更新用户信息
+export const updateUser = (id: string, userData: Partial<User>): Promise<ApiResponse<User>> => {
+    return request(`/users/${id}`, {
+        method: 'PATCH',
+        body: JSON.stringify(userData),
+    });
+};
+
+// ===== 课程相关 API =====
 
 // 获取所有课程
 export const getCourses = (): Promise<Course[]> => {
@@ -46,3 +81,64 @@ export const createCourse = (courseData: CreateCourseDto): Promise<Course> => {
 };
 
 // ... 您可以在这里继续添加 updateCourse, deleteCourse 等方法
+
+// ===== 社区帖子相关 API =====
+
+// 帖子数据类型定义
+export interface Post {
+    id: string;
+    title: string;
+    content: string;
+    author: {
+        id: string;
+        name: string;
+        avatar: string;
+        level: string;
+        badge?: string;
+    };
+    images?: string[];
+    category: string;
+    categoryColor: string;
+    createdAt: string;
+    likes: number;
+    comments: number;
+    views: number;
+}
+
+export interface Comment {
+    id: string;
+    author: {
+        name: string;
+        avatar: string;
+        level: string;
+        badge?: string;
+    };
+    content: string;
+    createdAt: string;
+    likes: number;
+}
+
+// 获取帖子详情
+export const getPostById = (id: string): Promise<ApiResponse<Post>> => {
+    return request(`/posts/${id}`);
+};
+
+// 获取帖子评论
+export const getPostComments = (postId: string): Promise<ApiResponse<Comment[]>> => {
+    return request(`/posts/${postId}/comments`);
+};
+
+// 点赞帖子
+export const likePost = (postId: string): Promise<ApiResponse<{ liked: boolean }>> => {
+    return request(`/posts/${postId}/like`, {
+        method: 'POST',
+    });
+};
+
+// 添加评论
+export const addComment = (postId: string, content: string): Promise<ApiResponse<Comment>> => {
+    return request(`/posts/${postId}/comments`, {
+        method: 'POST',
+        body: JSON.stringify({ content }),
+    });
+};
