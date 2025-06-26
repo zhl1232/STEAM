@@ -7,9 +7,11 @@ import {
   ScrollView,
   Alert,
   StyleSheet,
+  Platform, // Added for platform-specific styling
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Picker } from '@react-native-picker/picker';
+import { Ionicons } from '@expo/vector-icons'; // Added for icons
 import { 
   RegisterFormData, 
   FormValidationErrors, 
@@ -114,6 +116,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onNaviga
   const renderInput = (
     field: keyof RegisterFormData,
     placeholder: string,
+    iconName: keyof typeof Ionicons.glyphMap, // Added for icon name
     options?: {
       secureTextEntry?: boolean;
       keyboardType?: 'default' | 'email-address' | 'phone-pad' | 'url';
@@ -123,27 +126,28 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onNaviga
     }
   ) => (
     <View style={styles.inputContainer}>
-      <TextInput
-        style={[styles.input, errors[field] && styles.inputError]}
-        placeholder={placeholder}
-        placeholderTextColor="#999"
-        value={formData[field] as string}
-        onChangeText={(text) => updateField(field, text)}
-        secureTextEntry={options?.secureTextEntry}
-        keyboardType={options?.keyboardType || 'default'}
-        multiline={options?.multiline}
-        numberOfLines={options?.multiline ? 3 : 1}
-      />
-      {options?.showPasswordButton && (
-        <TouchableOpacity
-          style={styles.passwordToggle}
-          onPress={options.togglePassword}
-        >
-          <Text style={styles.passwordToggleText}>
-            {options.secureTextEntry ? '显示' : '隐藏'}
-          </Text>
-        </TouchableOpacity>
-      )}
+      <View style={[styles.inputWrapper, errors[field] && styles.inputErrorBorder]}>
+        <Ionicons name={iconName} size={20} color="#667eea" style={styles.inputIcon} />
+        <TextInput
+          style={styles.input}
+          placeholder={placeholder}
+          placeholderTextColor="#999"
+          value={formData[field] as string}
+          onChangeText={(text) => updateField(field, text)}
+          secureTextEntry={options?.secureTextEntry}
+          keyboardType={options?.keyboardType || 'default'}
+          multiline={options?.multiline}
+          numberOfLines={options?.multiline ? 3 : 1}
+        />
+        {options?.showPasswordButton && (
+          <TouchableOpacity
+            style={styles.passwordToggle}
+            onPress={options.togglePassword}
+          >
+            <Ionicons name={options.secureTextEntry ? "eye-off-outline" : "eye-outline"} size={22} color="#667eea" />
+          </TouchableOpacity>
+        )}
+      </View>
       {errors[field] && (
         <Text style={styles.errorText}>{errors[field]}</Text>
       )}
@@ -151,7 +155,7 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onNaviga
   );
 
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView style={styles.container} showsVerticalScrollIndicator={false} keyboardShouldPersistTaps="handled">
       <LinearGradient
         colors={['#667eea', '#764ba2']}
         style={styles.header}
@@ -164,21 +168,21 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onNaviga
         {/* 基本信息 */}
         <Text style={styles.sectionTitle}>基本信息</Text>
         
-        {renderInput('username', '用户名 *')}
-        {renderInput('nickname', '昵称 *')}
-        {renderInput('email', '邮箱地址 *', { keyboardType: 'email-address' })}
-        {renderInput('phone_number', '手机号（可选）', { keyboardType: 'phone-pad' })}
+        {renderInput('username', '用户名 *', 'person-outline')}
+        {renderInput('nickname', '昵称 *', 'happy-outline')}
+        {renderInput('email', '邮箱地址 *', 'mail-outline', { keyboardType: 'email-address' })}
+        {renderInput('phone_number', '手机号（可选）', 'call-outline', { keyboardType: 'phone-pad' })}
 
         {/* 密码设置 */}
         <Text style={styles.sectionTitle}>密码设置</Text>
         
-        {renderInput('password', '密码 *', {
+        {renderInput('password', '密码 *', 'lock-closed-outline', {
           secureTextEntry: !showPassword,
           showPasswordButton: true,
           togglePassword: () => setShowPassword(!showPassword)
         })}
         
-        {renderInput('confirmPassword', '确认密码 *', {
+        {renderInput('confirmPassword', '确认密码 *', 'lock-closed-outline', {
           secureTextEntry: !showConfirmPassword,
           showPasswordButton: true,
           togglePassword: () => setShowConfirmPassword(!showConfirmPassword)
@@ -187,14 +191,16 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onNaviga
         {/* 用户角色 */}
         <Text style={styles.sectionTitle}>用户类型</Text>
         <View style={styles.inputContainer}>
-          <View style={[styles.pickerContainer, errors.role && styles.inputError]}>
+          <View style={[styles.inputWrapper, styles.pickerInputWrapper, errors.role && styles.inputErrorBorder]}>
+            <Ionicons name="briefcase-outline" size={20} color="#667eea" style={styles.inputIcon} />
             <Picker
               selectedValue={formData.role}
               onValueChange={(value: UserRole) => updateField('role', value)}
               style={styles.picker}
+              itemStyle={styles.pickerItem}
             >
-              <Picker.Item label="学生" value={UserRole.STUDENT} />
-              <Picker.Item label="教师" value={UserRole.TEACHER} />
+              <Picker.Item label="我是学生" value={UserRole.STUDENT} />
+              <Picker.Item label="我是教师" value={UserRole.TEACHER} />
             </Picker>
           </View>
           {errors.role && (
@@ -203,10 +209,11 @@ const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onNaviga
         </View>
 
         {/* 可选信息 */}
-        <Text style={styles.sectionTitle}>可选信息</Text>
+        <Text style={[styles.sectionTitle, styles.optionalSectionTitle]}>可选信息</Text>
+        <Text style={styles.optionalSectionSubtitle}>完善资料有助于我们更好地为您服务，您也可以稍后在个人资料页面编辑。</Text>
         
-        {renderInput('avatar_url', '头像URL（可选）', { keyboardType: 'url' })}
-        {renderInput('bio', '个人简介（可选）', { multiline: true })}
+        {renderInput('avatar_url', '头像链接（可选）', 'image-outline', { keyboardType: 'url' })}
+        {renderInput('bio', '个人简介（可选）', 'create-outline', { multiline: true })}
 
         {/* 注册按钮 */}
         <TouchableOpacity
@@ -241,12 +248,15 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f9fa',
   },
   header: {
-    padding: 30,
-    paddingTop: 60,
+    paddingHorizontal: 30,
+    paddingVertical: 40,
+    paddingTop: Platform.OS === 'android' ? 50 : 70, // Adjust for status bar
     alignItems: 'center',
+    borderBottomLeftRadius: 30,
+    borderBottomRightRadius: 30,
   },
   title: {
-    fontSize: 28,
+    fontSize: 32, // Increased font size
     fontWeight: 'bold',
     color: 'white',
     marginBottom: 8,
@@ -264,76 +274,105 @@ const styles = StyleSheet.create({
     color: '#333',
     marginTop: 20,
     marginBottom: 15,
+    paddingHorizontal: 5, // Added padding for section title
+  },
+  optionalSectionTitle: {
+    color: '#555', // Slightly less prominent color
+    fontWeight: '500',
+  },
+  optionalSectionSubtitle: {
+    fontSize: 13,
+    color: '#777',
+    marginBottom: 15,
+    paddingHorizontal: 5,
   },
   inputContainer: {
-    marginBottom: 15,
+    marginBottom: 18, // Increased margin
   },
-  input: {
+  inputWrapper: {
+    flexDirection: 'row',
+    alignItems: 'center',
     backgroundColor: 'white',
     borderRadius: 12,
-    padding: 15,
-    fontSize: 16,
     borderWidth: 1,
     borderColor: '#e1e5e9',
+    paddingHorizontal: 15,
+  },
+  inputIcon: {
+    marginRight: 10,
+  },
+  input: {
+    flex: 1,
+    height: 50, // Explicit height
+    paddingVertical: 10, // Adjusted padding
+    fontSize: 16,
     color: '#333',
   },
-  inputError: {
+  inputErrorBorder: { // Renamed from inputError for clarity
     borderColor: '#ff6b6b',
   },
   passwordToggle: {
-    position: 'absolute',
-    right: 15,
-    top: 15,
+    padding: 5, // Added padding for easier touch
   },
-  passwordToggleText: {
-    color: '#667eea',
-    fontSize: 14,
-    fontWeight: '500',
+  // Removed passwordToggleText as we are using an icon now
+  pickerInputWrapper: { // Specific wrapper for picker to avoid double padding
+    paddingHorizontal: 0,
   },
-  pickerContainer: {
+  pickerContainer: { // Kept for potential future use, but not directly styling the visible border now
     backgroundColor: 'white',
     borderRadius: 12,
-    borderWidth: 1,
-    borderColor: '#e1e5e9',
   },
   picker: {
+    flex: 1, // Ensure picker takes full width within wrapper
     height: 50,
+    color: '#333', // Picker text color
+  },
+  pickerItem: {
+    // fontSize: 16, // Style for individual picker items if needed
   },
   errorText: {
     color: '#ff6b6b',
-    fontSize: 12,
+    fontSize: 13, // Slightly increased font size
     marginTop: 5,
     marginLeft: 5,
   },
   submitButton: {
-    marginTop: 30,
+    marginTop: 25, // Adjusted margin
     borderRadius: 12,
     overflow: 'hidden',
+    elevation: 3, // Added shadow for Android
+    shadowColor: '#000', // Added shadow for iOS
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
   },
   submitButtonDisabled: {
-    opacity: 0.7,
+    opacity: 0.6, // Adjusted opacity
   },
   submitButtonGradient: {
-    padding: 18,
+    paddingVertical: 16, // Adjusted padding
+    paddingHorizontal: 18,
     alignItems: 'center',
+    justifyContent: 'center', // Center text
+    flexDirection: 'row', // For icon if added later
   },
   submitButtonText: {
     color: 'white',
     fontSize: 18,
-    fontWeight: '600',
+    fontWeight: 'bold', // Bolder text
   },
   loginLink: {
     alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 30,
+    marginTop: 25, // Adjusted margin
+    marginBottom: 40, // Increased bottom margin
   },
   loginLinkText: {
     fontSize: 16,
-    color: '#666',
+    color: '#555', // Darker text for better contrast
   },
   loginLinkHighlight: {
     color: '#667eea',
-    fontWeight: '600',
+    fontWeight: 'bold', // Bolder text
   },
 });
 
